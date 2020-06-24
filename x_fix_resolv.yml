@@ -1,0 +1,14 @@
+- hosts: "{{ hostgroup }}"
+  gather_facts: False
+  vars_files:
+  - ~/ansible/.vault
+
+  tasks:
+  - name: "Fix DNS conf file"
+    lineinfile: 
+      dest=/etc/resolv.conf 
+      line={{ item.line }}
+    with_items:
+      - { line: 'search "{{ seachdomain }}"' }
+      - { line: 'nameserver "{{ dnsa }}"' }
+      - { line: 'nameserver "{{ dnsb }}"' }

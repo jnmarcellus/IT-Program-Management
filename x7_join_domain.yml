@@ -1,0 +1,76 @@
+- hosts: "{{ hostgroup }}"
+  gather_facts: False
+  vars_files:
+  - ~/ansible/.vault
+  
+  tasks:
+    - name: "Disable selinux"
+      selinux: state=disabled
+
+    - name: "Turn off selinux"
+      shell: setenforce 0
+
+    - name: "Install Packages for Domain Join"
+      yum: state=present name={{ item }}
+      with_items:
+          - sssd
+          - realmd
+          - oddjob
+          - oddjob-mkhomedir
+          - adcli
+          - samba-common
+          - samba-common-tools
+          - krb5-workstation
+          - openldap-clients
+          - policycoreutils-python
+          - expect
+  
+    - name: "Join Domain"
+      shell: |
+        spawn /usr/sbin/realm join "{{ domain }}" --user="{{ domainuser }}" --computer-ou="{{ ou }}"
+        expect "Password for "{{ domainuser }}" :"
+        send "{{ domainpass }}\n"
+        expect eof
+
+      args:
+        executable: /usr/bin/expect
+      
+    
+    - name: "Add Defualt Access Groups to /etc/security/access.conf"
+      lineinfile: backup=yes
+        dest=/etc/security/access.conf
+        line={{ item.line }}
+      with_items:
+        - { line: '+ : "{{ admingroups }}" : ALL' }
+        - { line: 'root : "{{ allowips }}"' }
+        - { line: 'ALL : ALL' }
+
+    - name: "Update Suoders to allow %"{{ admingroups }}""
+      lineinfile: backup=yes
+        dest=/etc/sudoers
+        line='%"{{ admingroups }}"  ALL=(ALL)     ALL'
+        validate='/usr/sbin/visudo -cf %s'
+
+    - name: "Update PAM Access file to require access file for sshd to lock down who can logon from where"
+      lineinfile: backup=yes
+        dest=/etc/pam.d/sshd
+        line='account    required     pam_access.so'
+        insertafter='^account    required     pam_nologin.so'
+
+    - name: "Modify the sssd.conf to allow short name and not have to have the upn to logon"
+      lineinfile: backup=yes
+        dest=/etc/sssd/sssd.conf
+        regexp='^use_fully_qualified_names = True'
+        line='use_fully_qualified_names = False'
+    
+    - name: "Modify the sssd.conf to change home to just use the username"
+      lineinfile: backup=yes
+        dest=/etc/sssd/sssd.conf
+        regexp='^fallback_homedir = /home/%u@%d'
+        line='fallback_homedir = /home/%u'
+        
+    - name: "Reboot Server"
+      command: /sbin/shutdown -r +1
+      async: 0
+      poll: 0
+      ignore_errors: true

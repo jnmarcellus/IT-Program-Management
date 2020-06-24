@@ -1,0 +1,8 @@
+- hosts: "{{ hostgroup }}"
+  gather_facts: False
+  vars_files:
+  - ~/ansible/.vault
+
+  tasks:
+  - name: "Test to verify that WINRM is working ok"
+  - win_ping:

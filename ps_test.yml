@@ -1,0 +1,12 @@
+- hosts:
+        "{{ hostgroup }}"
+  gather_facts: False
+  vars_files:
+  - ~/ansible/.vault
+
+  tasks:
+  
+  - name: "Test to verify that WINRM and PS are working ok"
+    script: /ansible/scripts/test-ps.ps1
+    register: out
+  - debug: var=out

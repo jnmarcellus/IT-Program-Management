@@ -1,0 +1,7 @@
+- hosts: "{{ hostgroup }}"
+  gather_facts: False
+  vars_files:
+  - ~/ansible/.vault
+
+  tasks:
+  - ping:

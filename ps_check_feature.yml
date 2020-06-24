@@ -1,0 +1,12 @@
+- hosts:
+        "{{ hostgroup }}"
+  gather_facts: False
+  vars_files:
+  - ~/ansible/.vault
+
+  tasks:
+
+  - name: "Check Defender"
+    script: /ansible/scripts/check_feature.ps1
+    register: out
+  - debug: var=out
