@@ -6,6 +6,10 @@ Do you want to be an IT Operations Leader but don't want to spend 10 days workin
 
 Look for what you want and use it :)
 
+## Prerequisites for Ansible Library
+
+Download and run
+
 ## Prerequisites for Powershell Library
 
 Open Run Command/Console ( Win + R )
