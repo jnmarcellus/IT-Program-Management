@@ -46,5 +46,5 @@ I would be happy to extend the collection of scripts. Just open an issue or send
 
 ### Authors
 
-John Marcellus - Initial Work, Program Management, and Powershell Libraries
-Randy Muma - Ansible
+1. John Marcellus - Initial Work, Program Management, and Powershell Libraries
+2. Randy Muma - Ansible
