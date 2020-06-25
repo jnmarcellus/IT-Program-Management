@@ -1,0 +1,9 @@
+- hosts: "{{ hostgroup }}"
+  vars_files:
+  - ~/ansible/.vault
+
+  tasks:
+  - name: "Run Expand the D drive to Max Allocated"
+    script: /ansible/scripts//set-maxdisksize.ps1
+    register: out
+  - debug: var=out

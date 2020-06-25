@@ -1,0 +1,7 @@
+- hosts: "{{ hostgroup }}"
+  vars_files:
+  - ~/ansible/.vault
+
+  tasks:
+  - name: "Reboot Windows Machine"
+  - win_reboot:

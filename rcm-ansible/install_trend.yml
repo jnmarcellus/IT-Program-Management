@@ -1,0 +1,22 @@
+- hosts: "{{ hostgroup }}"
+  vars_files:
+  - ~/ansible/.vault
+ 
+  tasks:
+  - name: "Copy Trend MSI"
+    win_copy:
+      src: /ansible/files/trend
+      dest: c:\temp
+   
+  - name: "Install Trend"
+    win_package:
+      path: c:\temp\trend\trend.msi
+      arguments: /Q
+  
+  - name: "Set Trend Policy"
+    raw: c:\temp\trend\trend.bat
+
+  - name: "Remove Trend Temp Files"
+    win_file: 
+      path: c:\temp\trend
+      state: absent

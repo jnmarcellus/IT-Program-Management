@@ -1,0 +1,12 @@
+- hosts:
+        "{{ hostgroup }}"
+  gather_facts: False
+  vars_files:
+  - ~/ansible/.vault
+
+  tasks:
+
+  - name: "Run Removing Defender"
+    script: /ansible/scripts/remove-defender.ps1
+    register: out
+  - debug: var=out
