@@ -1,6 +1,6 @@
-# ITOpsProgramStuff
+# IT Operations Program
 
-Do you want to be an IT Operations Leader but don't want to spend 10 days working on a powerpoint, well you have found the right repository!
+Do you want to be an IT Operations Leader but don't want to spend 10 days working on a powerpoint, well you have found the right repository! How about you want to help your teams deploy Powershell, Ansible, or other random tools - also the right place!
 
 ### Getting Started
 
