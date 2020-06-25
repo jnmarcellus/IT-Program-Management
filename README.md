@@ -10,6 +10,10 @@ Look for what you want and use it :)
 
 Download and run
 
+## Prerequisites for Python Library
+
+Python 3.6
+
 ## Prerequisites for Powershell Library
 
 Open Run Command/Console ( Win + R )
